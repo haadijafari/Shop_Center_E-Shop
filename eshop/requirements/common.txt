@@ -1,0 +1,13 @@
+django>4.2,<4.3
+python-dotenv
+pillow
+django-phone-field
+django-robots
+django-taggit
+
+# reCaptcha
+django-recaptcha==3.0.0
+django_multi_captcha_admin
+
+# Security
+django-csp
