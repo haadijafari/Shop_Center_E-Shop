@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'taggit',
 
     # apps
+    'apps.index',
     'apps.product',
 ]
 
