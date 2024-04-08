@@ -20,7 +20,8 @@ class ProductCategory(models.Model):
 
 class Product(models.Model):
     title = models.CharField(_('Title'), max_length=300)
-    category = models.ManyToManyField(ProductCategory, verbose_name=_('Categories'), related_name='product_categories')
+    category = models.ManyToManyField(ProductCategory, verbose_name=_('Categories'), related_name='product_categories',
+                                      null=True, blank=True)
     tag = TaggableManager(_('Tags'), blank=True)
     price = models.IntegerField(_('Price'))
     short_description = models.CharField(_('Short Description'), max_length=360, null=True)

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.product.models import Product
+from apps.product.models import Product, ProductCategory
 
 
 @admin.register(Product)
@@ -9,8 +9,8 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {
         'slug': ['title']
     }
-    list_filter = ['is_active']
-    list_display = ['__str__', 'price', 'is_active']
-    list_editable = ['is_active']
+    list_filter = ['category', 'is_active']
+    list_display = ['__str__', 'price', 'is_active', 'is_delete']
+    list_editable = ['price', 'is_active']
 
-# admin.site.register(Product, ProductAdmin)
+admin.site.register(ProductCategory)
