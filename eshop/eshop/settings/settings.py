@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # apps
     'apps.index',
+    'apps.contact',
     'apps.product',
 ]
 

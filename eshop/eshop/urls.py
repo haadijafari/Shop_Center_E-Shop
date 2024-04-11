@@ -24,7 +24,8 @@ from eshop.settings.settings import DEBUG
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.index.urls')),
-    path('', include('apps.product.urls')),
+    path('products/', include('apps.product.urls')),
+    path('contact/', include('apps.contact.urls')),
 ]
 
 if DEBUG:
