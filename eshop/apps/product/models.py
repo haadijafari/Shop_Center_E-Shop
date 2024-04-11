@@ -6,29 +6,30 @@ from taggit.managers import TaggableManager
 
 
 class ProductCategory(models.Model):
-    title = models.CharField(_('Title'), max_length=300, db_index=True)
-    is_active = models.BooleanField(_('Active Status'), default=False)
-    is_delete = models.BooleanField(_('Delete Status'), default=False)
+    title = models.CharField(_('عنوان'), max_length=300, db_index=True)
+    is_active = models.BooleanField(_('فعال/ غیرفعال'), default=False)
+    is_delete = models.BooleanField(_('حذف شده / حذف نشده'), default=False)
 
     def __str__(self):
         return self.title
 
     class Meta:
-        verbose_name = _('Product Category')
-        verbose_name_plural = _('Product Categories')
+        verbose_name = _('دسته بندی')
+        verbose_name_plural = _('دسته بندی ها')
 
 
 class Product(models.Model):
-    title = models.CharField(_('Title'), max_length=300)
-    category = models.ManyToManyField(ProductCategory, verbose_name=_('Categories'), related_name='product_categories',
+    title = models.CharField(_('عنوان'), max_length=300)
+    category = models.ManyToManyField(ProductCategory, verbose_name=_('دسته بندی ها'),
+                                      related_name='product_categories',
                                       null=True, blank=True)
-    tag = TaggableManager(_('Tags'), blank=True)
-    price = models.IntegerField(_('Price'))
-    short_description = models.CharField(_('Short Description'), max_length=360, null=True)
-    description = models.TextField(_('Main Description'), null=True, blank=True)
-    is_active = models.BooleanField(_('Active Status'), default=False)
-    is_delete = models.BooleanField(_('Delete Status'), default=False)
-    slug = models.SlugField(_('Slug'), default="", null=False, blank=True, db_index=True, max_length=200, unique=True)
+    tag = TaggableManager(_('تگ ها'), blank=True)
+    price = models.IntegerField(_('قیمت'))
+    short_description = models.CharField(_('توضیحات کوتاه'), max_length=360, null=True)
+    description = models.TextField(_('توضبحات'), null=True, blank=True)
+    is_active = models.BooleanField(_('فعال / غیرفعال'), default=False)
+    is_delete = models.BooleanField(_('حذف شده / حذف نشده'), default=False)
+    slug = models.SlugField(_('اسلاگ'), default="", null=False, blank=True, db_index=True, max_length=200, unique=True)
 
     def get_absolute_url(self):
         return reverse('product-detail', args=[self.slug])
@@ -41,5 +42,5 @@ class Product(models.Model):
         return f"{self.title} ({self.price})"
 
     class Meta:
-        verbose_name = _('Product')
-        verbose_name_plural = _('Products')
+        verbose_name = _('محصول')
+        verbose_name_plural = _('محصولات')
