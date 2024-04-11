@@ -45,7 +45,7 @@ class Product(models.Model):
     slug = models.SlugField(_('اسلاگ'), default="", null=False, blank=True, db_index=True, max_length=200, unique=True)
 
     def get_absolute_url(self):
-        return reverse('product-detail', args=[self.slug])
+        return reverse('product:product_details', args=[self.id, self.slug])
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
