@@ -70,7 +70,9 @@
                                 <div>
                                     <p><b>موجـودی :</b> در انبـار موجود می باشد</p>
                                     <p><b>شرایـط :</b> جدیـد</p>
-                                    <p><b>برنـد :</b> برنـد </p>
+                                    {% if product.brand %}
+                                        <p><b>برنـد :</b> {{ product.brand.title }} </p>
+                                    {% endif %}
                                 </div>
                                 <span class="socials-share share">
 									<ul>

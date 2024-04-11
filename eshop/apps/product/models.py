@@ -18,12 +18,25 @@ class ProductCategory(models.Model):
         verbose_name_plural = _('دسته بندی ها')
 
 
+class ProductBrand(models.Model):
+    title = models.CharField(_('عنوان'), max_length=300, db_index=True)
+    is_active = models.BooleanField(_('فعال/ غیرفعال'), default=False)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _('برند')
+        verbose_name_plural = _('برند ها')
+
+
 class Product(models.Model):
     title = models.CharField(_('عنوان'), max_length=300)
     category = models.ManyToManyField(ProductCategory, verbose_name=_('دسته بندی ها'),
                                       related_name='product_categories',
                                       null=True, blank=True)
     tag = TaggableManager(_('تگ ها'), blank=True)
+    brand = models.ForeignKey(ProductBrand, verbose_name=_('برند'), null=True, blank=True, on_delete=models.SET_NULL)
     price = models.IntegerField(_('قیمت'))
     short_description = models.CharField(_('توضیحات کوتاه'), max_length=360, null=True)
     description = models.TextField(_('توضبحات'), null=True, blank=True)
