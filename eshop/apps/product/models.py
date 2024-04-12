@@ -34,7 +34,7 @@ class Product(models.Model):
     title = models.CharField(_('عنوان'), max_length=300)
     category = models.ManyToManyField(ProductCategory, verbose_name=_('دسته بندی ها'),
                                       related_name='product_categories',
-                                      null=True, blank=True)
+                                      blank=True)
     tag = TaggableManager(_('تگ ها'), blank=True)
     brand = models.ForeignKey(ProductBrand, verbose_name=_('برند'), null=True, blank=True, on_delete=models.SET_NULL)
     price = models.IntegerField(_('قیمت'))
