@@ -1,39 +1,16 @@
 from django.shortcuts import render, redirect
 
 from apps.contact.forms import ContactModelForm
+from django.urls import reverse
 from django.views import View
+from django.views.generic import FormView
 
 
-class ContactView(View):
-    def get(self, request):
-        contact_form = ContactModelForm()
-        context = {
-            'form': contact_form
-        }
-        return render(request, 'contact/contact.html', context)
+class ContactView(FormView):
+    template_name = 'contact/contact.html'
+    form_class = ContactModelForm
+    success_url = reverse('contact:contact')
 
-    def post(self, request):
-        contact_form = ContactModelForm(request.POST)
-        if contact_form.is_valid():
-            # process the data in form.cleaned_data as required
-            contact_form.save()
-            # redirect to a new URL:
-            return redirect('index:home')
-        context = {
-            'form': contact_form
-        }
-        return render(request, 'contact/contact.html', context)
-
-
-def contact_page_view(request):
-    contact_form = ContactModelForm(request.POST or None)
-    if request.method == 'POST':
-        if contact_form.is_valid():
-            # process the data in form.cleaned_data as required
-            contact_form.save()
-            # redirect to a new URL:
-            return redirect('index:home')
-    context = {
-        'form': contact_form
-    }
-    return render(request, 'contact/contact.html', context)
+    def form_valid(self, form):
+        form.save()
+        return super(ContactView, self).form_valid(form)
