@@ -35,6 +35,7 @@ class Product(models.Model):
     category = models.ManyToManyField(ProductCategory, verbose_name=_('دسته بندی ها'),
                                       related_name='product_categories',
                                       blank=True)
+    image = models.ImageField(_('عکس'), upload_to='images/products', null=True, blank=True)
     tag = TaggableManager(_('تگ ها'), blank=True)
     brand = models.ForeignKey(ProductBrand, verbose_name=_('برند'), null=True, blank=True, on_delete=models.SET_NULL)
     price = models.IntegerField(_('قیمت'))

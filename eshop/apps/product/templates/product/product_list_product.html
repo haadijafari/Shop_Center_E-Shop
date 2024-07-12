@@ -4,7 +4,12 @@
     <div class="product-image-wrapper">
         <div class="single-products">
             <div class="productinfo text-center">
-                <img src="{% static 'images/shop/product.jpg' %}" alt=""/>
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt=""/>
+
+                {% else %}
+                    <img src="{% static 'images/shop/product.jpg' %}" alt=""/>
+                {% endif %}
                 <h2>{{ product.price|intcomma }} تومان</h2>
                 <p>{{ product.short_description }}</p>
                 <a href="#" class="btn btn-default add-to-cart"><i
@@ -18,8 +23,8 @@
                             class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</a>
                 </div>
             </div>
-{#            <img src="{% static 'images/home/new.png' %}" class="new" alt=""/>#}
-{#            <img src="{% static 'images/home/sale.png' %}" class="new" alt=""/>#}
+            {#            <img src="{% static 'images/home/new.png' %}" class="new" alt=""/>#}
+            {#            <img src="{% static 'images/home/sale.png' %}" class="new" alt=""/>#}
         </div>
         <div class="choose">
             <ul class="nav nav-pills nav-justified">
