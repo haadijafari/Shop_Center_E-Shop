@@ -18,16 +18,28 @@
                     <div class="features_items"><!--features_items-->
                         <h2 class="title text-center">لیست محصولات</h2>
                         {% for product in products %}
-                            {% include 'product/product_list_product.html' with product=product%}
+                            {% include 'product/product_list_product.html' with product=product %}
                         {% endfor %}
 
                         <div class="clearfix"></div>
 
                         <ul class="pagination">
-                            <li class="active"><a href="">1</a></li>
-                            <li><a href="">2</a></li>
-                            <li><a href="">3</a></li>
-                            <li><a href="">&raquo;</a></li>
+                            {% if page_obj.has_other_pages %}
+                                {% if page_obj.has_previous %}
+                                    <li><a href="?page=1">اولین صفحه</a></li>
+                                    <li><a href="?page={{ page_obj.previous_page_number }}">قبلی</a></li>
+                                {% endif %}
+                                {% for page_num in paginator.page_range %}
+                                    <li class="{% if page_num == page_obj.number %} active {% endif %}">
+                                        <a href="?page={{ page_num }}">{{ page_num }}</a>
+                                    </li>
+                                {% endfor %}
+
+                                {% if page_obj.has_next %}
+                                    <li><a href="?page={{ page_obj.next_page_number }}">بعدی</a></li>
+                                    <li><a href="?page={{ page_obj.paginator.num_pages }}">آخرین صفحه</a></li>
+                                {% endif %}
+                            {% endif %}
                         </ul>
                     </div><!--features_items-->
                 </div>
