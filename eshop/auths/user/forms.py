@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
 from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
@@ -28,3 +28,28 @@ class RegistrationForm(forms.ModelForm):
             self.add_error('password_confirm', _('کلمه های عبور وارد شده یکسان نیستند.'))
 
         return cleaned_data
+
+
+class LoginForm(forms.Form):
+    email = forms.EmailField(max_length=254)
+    password = forms.CharField(widget=forms.PasswordInput)
+    user = None
+
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get('email')
+        password = cleaned_data.get('password')
+
+        if email and password:
+            try:
+                user = User.objects.get(email=email)
+            except User.DoesNotExist:
+                raise forms.ValidationError(_('ایمیل یا کلمه رمز اشتباه است'))
+
+            self.user = authenticate(username=user.username, password=password)
+            if self.user is None:
+                raise forms.ValidationError(_('ایمیل یا کلمه رمز اشتباه است'))
+        return cleaned_data
+
+    def get_user(self):
+        return self.user
