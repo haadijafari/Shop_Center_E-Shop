@@ -1,5 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model, authenticate
+from django.contrib.auth.forms import SetPasswordForm
+from django.core import validators
 from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
@@ -53,3 +55,25 @@ class LoginForm(forms.Form):
 
     def get_user(self):
         return self.user
+
+
+class ForgotPasswordForm(forms.Form):
+    email = forms.EmailField(max_length=254)
+
+
+class ResetPasswordForm(forms.Form):
+    password = forms.CharField(
+        label='کلمه عبور',
+        widget=forms.PasswordInput(),
+        validators=[
+            validators.MaxLengthValidator(100),
+        ]
+    )
+
+    confirm_password = forms.CharField(
+        label='تکرار کلمه عبور',
+        widget=forms.PasswordInput(),
+        validators=[
+            validators.MaxLengthValidator(100),
+        ]
+    )
