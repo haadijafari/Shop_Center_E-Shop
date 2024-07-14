@@ -7,10 +7,6 @@ def home_page_view(request):
     return render(request, 'index/index.html')
 
 
-# class HomeView(View):
-#     def get(self, request):
-#         return render(request, 'index/index.html')
-
 class HomeView(TemplateView):
     template_name = 'index/index.html'
 

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'auths.user',
     'apps.index',
     'apps.contact',
+    'apps.about_us',
     'apps.product',
 ]
 
