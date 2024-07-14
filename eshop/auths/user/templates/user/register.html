@@ -1,0 +1,35 @@
+{% extends 'shared/_base.html' %}
+{% load static %}
+
+{% block title %}عضویت{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <section id="form"><!--form-->
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2">
+                    <div class="signup-form"><!--sign up form-->
+                        <h2>ثبت نام کاربـر جدیـد</h2>
+                        <form action="{% url 'user:register' %}" method="post">
+                            {% csrf_token %}
+
+                            {{ form.username.label_tag }}
+                            {{ form.username.errors }}
+                            {{ form.username }}
+                            {{ form.email.label_tag }}
+                            {{ form.email.errors }}
+                            {{ form.email }}
+                            {{ form.password.label_tag }}
+                            {{ form.password.errors }}
+                            {{ form.password }}
+                            {{ form.password_confirm.label_tag }}
+                            {{ form.password_confirm.errors }}
+                            {{ form.password_confirm }}
+                            <button type="submit" class="btn btn-default">ثبت نام</button>
+                        </form>
+                    </div><!--/sign up form-->
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
