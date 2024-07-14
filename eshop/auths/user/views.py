@@ -1,5 +1,7 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login, logout
+from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy, reverse
 from django.utils.crypto import get_random_string
@@ -12,7 +14,18 @@ from .forms import RegistrationForm, LoginForm, ForgotPasswordForm, ResetPasswor
 User = get_user_model()
 
 
-# todo: Error message should be handled
+def mail_sender(subject, context, sender, receiver: list()):
+    send_mail(
+        subject,
+        context,
+        sender,  # sender email
+        receiver,  # replace with your test recipient
+        fail_silently=False,
+    )
+
+
+# todo: Email Sent Message Notification
+# todo: Error Messages for each field
 class RegistrationView(FormView):
     template_name = 'user/register.html'
     form_class = RegistrationForm
@@ -23,7 +36,14 @@ class RegistrationView(FormView):
         user.set_password(form.cleaned_data['password'])
         user.is_active, user.is_superuser, user.is_staff = False, False, False
         user.save()
-        # todo: Send Email and Wait for verification
+
+        send_mail(
+            'Registration Verification Link',
+            f'http://127.0.0.1:8000/activation/{user.verification_code}',
+            settings.EMAIL_HOST_USER,  # sender email
+            [f'{user.email}'],
+            fail_silently=False,
+        )
         return super().form_valid(form)
 
 
@@ -69,7 +89,13 @@ class ForgotPasswordView(FormView):
         user: User = get_object_or_404(User, email__iexact=email)
         # Generate a unique password reset token and send an email to the user
         # Here, you would typically use Django's built-in password reset functionality
-        # todo: send email with user.verification_code
+        send_mail(
+            'Reset Password Link',
+            f'http://127.0.0.1:8000/reset-pass/{user.verification_code}',
+            settings.EMAIL_HOST_USER,  # sender email
+            [f'{user.email}'],
+            fail_silently=False,
+        )
         print(user.verification_code)
 
         return super().form_valid(form)
