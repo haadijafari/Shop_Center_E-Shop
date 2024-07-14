@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import get_user_model, login
+from django.contrib.auth import get_user_model, login, logout
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy, reverse
 from django.utils.crypto import get_random_string
@@ -109,5 +109,6 @@ class ResetPasswordView(View):
 
 
 class LogoutView(View):
-    def get(self):
-        pass
+    def get(self, request):
+        logout(request)
+        return redirect(reverse('user:login'))
