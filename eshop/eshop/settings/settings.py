@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'taggit',
     # Project Apps
     'auths.user',
+    'apps.site_settings',
     'apps.index',
     'apps.contact',
     'apps.about_us',
