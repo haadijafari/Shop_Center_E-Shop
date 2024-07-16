@@ -40,8 +40,10 @@
 
                 <div class="col-sm-4" style="text-align: left;">
                     <div class="logo">
-                        <a href="index.html"><img src="{% static 'images/home/logo.png' %}" alt="Logo"
-                                                  style="text-align: center;"/></a>
+                        <a href="index.html"><img
+                                src="{% if site_settings %}{{ site_settings.logo.url }}{% else %}{% static 'images/home/logo.png' %}{% endif %}"
+                                alt="Logo"
+                                style="text-align: center;"/></a>
                     </div>
                 </div>
 
@@ -50,7 +52,8 @@
                         <ul class="nav navbar-nav">
                             {% if request.user.is_authenticated %}
                                 <li><a href="{% url 'index:home' %}"><i class="fa fa-dashboard"></i> پنل کاربری</a></li>
-                                <li><a href="{% url 'index:home' %}"><i class="fa fa-shopping-cart"></i> سبد خریـد</a></li>
+                                <li><a href="{% url 'index:home' %}"><i class="fa fa-shopping-cart"></i> سبد خریـد</a>
+                                </li>
                                 <li><a href="{% url 'user:logout' %}"><i class="fa fa-sign-out"></i> خروج</a></li>
                             {% else %}
 

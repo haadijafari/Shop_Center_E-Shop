@@ -1,3 +1,7 @@
+# CDN files
+media_cdn/
+static_cdn/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

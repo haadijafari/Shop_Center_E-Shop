@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView
-from apps.site_settings.models import Slider
+from apps.site_settings.models import Slider, FooterLink
 
 
 def home_page_view(request):

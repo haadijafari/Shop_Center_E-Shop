@@ -13,7 +13,7 @@ class SiteSetting(models.Model):
         verbose_name_plural = _('کانفیگ های تنظیمات پایه')
 
     def __str__(self):
-        return self.site_name
+        return self.site_title
 
 
 class AboutUs(models.Model):
