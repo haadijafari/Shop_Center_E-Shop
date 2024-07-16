@@ -1,19 +1,10 @@
-{% load static %}
+{% load static thumbnail %}
 
 <section id="slider"><!--slider-->
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
                 <div id="slider-carousel" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        {% for slider in sliders %}
-                            <li data-target="#slider-carousel"
-                                data-slide-to="{{ forloop.counter0 }}"
-                                class="{% if forloop.first %} active {% endif %}">
-                            </li>
-                        {% endfor %}
-                    </ol>
-
                     <div class="carousel-inner">
                         {% for slider in sliders %}
                             <div class="item active">
@@ -24,11 +15,9 @@
                                     <a href="{{ slider.url }}" class="btn btn-default get">{{ slider.url_title }}</a>
                                 </div>
                                 <div class="col-sm-6">
-                                    <img src="{% if slider.image %}
-                                    {{ slider.image.url }}
-                                    {% else %}
-                                    {% static 'images/home/girl2.jpg' %}
-                                    {% endif %} " class="girl img-responsive" alt=""/>
+                                    {% thumbnail slider.image "484x441" crop="center" as im %}
+                                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                    {% endthumbnail %}
                                 </div>
                             </div>
                         {% endfor %}

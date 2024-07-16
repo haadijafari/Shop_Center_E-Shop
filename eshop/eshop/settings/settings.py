@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     # Modules
     'taggit',
+    'sorl.thumbnail',
     # Project Apps
     'auths.user',
     'apps.site_settings',
@@ -106,4 +107,3 @@ EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 EMAIL_USE_TLS = False
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-

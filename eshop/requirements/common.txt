@@ -4,6 +4,7 @@ pillow
 django-phone-field
 django-robots
 django-taggit
+sorl-thumbnail
 
 # reCaptcha
 django-recaptcha==3.0.0
