@@ -61,8 +61,9 @@ class FooterLink(models.Model):
 
 class Slider(models.Model):
     title = models.CharField(_('عنوان'), max_length=128)
+    sec_title = models.CharField(_('عنوان فرعی'), max_length=128, null=True, blank=True)
     url = models.URLField(_('لینک'), max_length=512)
-    url_title = models.URLField(_('عنوان لینک'), max_length=128)
+    url_title = models.CharField(_('عنوان لینک'), max_length=128)
     description = models.TextField(_('توضیحات اسلایدر'))
     image = models.ImageField(_('تصویر اسلایدر'), upload_to='images/sliders')
     is_active = models.BooleanField(_('فعال / غیرفعال'), default=True)

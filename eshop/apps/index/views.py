@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView
+from apps.site_settings.models import Slider
 
 
 def home_page_view(request):
@@ -12,5 +13,5 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data()
-        # context['request'] = self.request
+        context['sliders'] = Slider.objects.filter(is_active=True)
         return context
