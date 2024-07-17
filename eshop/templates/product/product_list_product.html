@@ -1,16 +1,18 @@
-{% load static humanize %}
+{% load static humanize thumbnail %}
 
 <div class="col-sm-4">
     <div class="product-image-wrapper">
         <div class="single-products">
             <div class="productinfo text-center">
                 {% if product.image %}
-                    <img src="{{ product.image.url }}" alt=""/>
-
+                    {% thumbnail product.image "268x250" crop="center" as im %}
+                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                    {% endthumbnail %}
                 {% else %}
                     <img src="{% static 'images/shop/product.jpg' %}" alt=""/>
                 {% endif %}
-                <h2>{{ product.price|intcomma }} تومان</h2>
+                <h2>{{ product.title }}</h2>
+                <h4>{{ product.price|intcomma }} تومان</h4>
                 <p>{{ product.short_description }}</p>
                 <a href="#" class="btn btn-default add-to-cart"><i
                         class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</a>
@@ -23,13 +25,17 @@
                             class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</a>
                 </div>
             </div>
-{#                        <img src="{% static 'images/home/new.png' %}" class="new" alt=""/>#}
-{#                        <img src="{% static 'images/home/sale.png' %}" class="new" alt=""/>#}
+            {% if product.is_sale %}
+                <img src="{% static 'images/home/sale.png' %}" class="new" alt=""/>
+            {% endif %}
+            {% if product.is_new %}
+                <img src="{% static 'images/home/new.png' %}" class="new" alt=""/>
+            {% endif %}
         </div>
         <div class="choose">
             <ul class="nav nav-pills nav-justified">
                 <li><a href="{{ product.get_absolute_url }}"><i class="fa fa-plus-square"></i>جزئیات محصول</a></li>
-{#                <li><a href=""><i class="fa fa-plus-square"></i>مقایسه</a></li>#}
+                {#                <li><a href=""><i class="fa fa-plus-square"></i>مقایسه</a></li>#}
             </ul>
         </div>
     </div>

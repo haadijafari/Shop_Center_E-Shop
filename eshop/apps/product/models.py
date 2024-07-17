@@ -43,6 +43,8 @@ class Product(models.Model):
     description = models.TextField(_('توضبحات'), null=True, blank=True)
     is_active = models.BooleanField(_('فعال / غیرفعال'), default=False)
     is_delete = models.BooleanField(_('حذف شده / حذف نشده'), default=False)
+    is_new = models.BooleanField(_('محصول جدید'), default=False)
+    is_sale = models.BooleanField(_('حراج'), default=False)
     slug = models.SlugField(_('اسلاگ'), default="", null=False, blank=True, db_index=True, max_length=200, unique=True)
 
     def get_absolute_url(self):
