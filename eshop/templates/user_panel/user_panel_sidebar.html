@@ -1,0 +1,19 @@
+{% load thumbnail %}
+
+<div class="list-group">
+    {% if request.user.avatar %}
+        <a class="thumbnail">
+            {% thumbnail request.user.avatar "350x320" crop="center" as im %}
+                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+            {% endthumbnail %}
+        </a>
+    {% endif %}
+    <a class="list-group-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"
+       href="{% url 'user_panel:dashboard' %}">پنل کاربری</a>
+
+    <a class="list-group-item {% if request.resolver_match.url_name == 'edit_profile' %}active{% endif %}"
+       href="{% url 'user_panel:edit_profile' %}">ویرایش اطلاعات</a>
+
+    <a class="list-group-item {% if request.resolver_match.url_name == 'change_password' %}active{% endif %}"
+       href="{% url 'user_panel:change_password' %}">تغییر کلمه عبور</a>
+</div>

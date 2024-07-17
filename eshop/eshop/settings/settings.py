@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'apps.contact',
     'apps.about_us',
     'apps.product',
+    'apps.user_panel',
 ]
 
 MIDDLEWARE = [

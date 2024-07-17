@@ -1,0 +1,22 @@
+{% extends 'shared/_base.html' %}
+
+{% block title %}
+    ویرایش اطلاعات کاربری
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                {% include 'user_panel/user_panel_sidebar.html' %}
+            </div>
+            <div class="col-md-8" style="margin-bottom: 5rem">
+                <form enctype="multipart/form-data" action="{% url 'user_panel:edit_profile' %}" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-success">ثبت</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

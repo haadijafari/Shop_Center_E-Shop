@@ -19,7 +19,7 @@
                     <div class="shop-menu pull-right">
                         <ul class="nav navbar-nav">
                             {% if request.user.is_authenticated %}
-                                <li><a href="{% url 'index:home' %}"><i class="fa fa-dashboard"></i> پنل کاربری</a></li>
+                                <li><a href="{% url 'user_panel:dashboard' %}"><i class="fa fa-dashboard"></i> پنل کاربری</a></li>
                                 <li><a href="{% url 'index:home' %}"><i class="fa fa-shopping-cart"></i> سبد خریـد</a>
                                 </li>
                                 <li><a href="{% url 'user:logout' %}"><i class="fa fa-sign-out"></i> خروج</a></li>
