@@ -10,6 +10,21 @@
                 <div class="col-sm-8 col-sm-offset-2">
                     <div class="signup-form"><!--sign up form-->
                         <h2>ورود کاربر</h2>
+                        {% if messages %}
+                            <ul class="messages">
+                                {% for message in messages %}
+                                    <li class="alert alert-{{ message.tags }} 
+                                    {% if message.tags == 'error' %}
+                                    alert-danger
+                                    {% endif %} 
+                                     alert-dismissible fade in">
+                                        <button type="button" class="close pull-left" data-dismiss="alert"
+                                                aria-label="Close"><span
+                                                aria-hidden="true">×</span></button>
+                                        {{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
                         <form action="{% url 'user:login' %}" method="post">
                             {% csrf_token %}
 
