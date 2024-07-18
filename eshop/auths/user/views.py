@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login, logout
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy, reverse
@@ -26,7 +27,7 @@ def mail_sender(subject, context, sender, receiver: list()):
 
 # todo: Email Sent Message Notification
 # todo: Error Messages for each field
-class RegistrationView(FormView):
+class RegistrationView(UserPassesTestMixin, FormView):
     template_name = 'user/register.html'
     form_class = RegistrationForm
     success_url = reverse_lazy('index:home')
@@ -46,6 +47,13 @@ class RegistrationView(FormView):
         )
         return super().form_valid(form)
 
+    def test_func(self):
+        return not self.request.user.is_authenticated
+
+    # redirect authenticated users (who have passed the test)
+    def handle_no_permission(self):
+        return redirect('index:home')
+
 
 # todo: Error message should be handled
 class ActivationView(View):
@@ -63,7 +71,7 @@ class ActivationView(View):
 
 
 # todo: Error message should be handled
-class LoginView(FormView):
+class LoginView(UserPassesTestMixin, FormView):
     template_name = 'user/login.html'
     form_class = LoginForm
     success_url = reverse_lazy('index:home')
@@ -76,6 +84,13 @@ class LoginView(FormView):
         else:
             messages.error(self.request, 'Invalid email or password.')
             return self.form_invalid(form)
+
+    def test_func(self):
+        return not self.request.user.is_authenticated
+
+    # redirect authenticated users (who have passed the test)
+    def handle_no_permission(self):
+        return redirect('index:home')
 
 
 # todo: Error message should be handled

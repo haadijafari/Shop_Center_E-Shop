@@ -8,11 +8,11 @@ from auths.user.models import User
 from .forms import UserProfileModelForm
 
 
-class UserPanel(TemplateView):
+class UserPanel(LoginRequiredMixin, TemplateView):
     template_name = 'user_panel/user_panel_dashboard.html'
 
 
-class EditProfileInfo(UpdateView):
+class EditProfileInfo(LoginRequiredMixin, UpdateView):
     template_name = 'user_panel/user_panel_edit_profile.html'
     model = User
     form_class = UserProfileModelForm
