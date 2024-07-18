@@ -21,6 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = os.environ.get('DEBUG') == 'True'
 AUTH_USER_MODEL = 'user.User'
+LOGIN_URL = 'user:login'
 
 # Application definition
 INSTALLED_APPS = [
