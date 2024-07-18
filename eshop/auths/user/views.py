@@ -25,8 +25,6 @@ def mail_sender(subject, context, sender, receiver: list()):
     )
 
 
-# todo: Email Sent Message Notification
-# todo: Error Messages for each field
 class RegistrationView(UserPassesTestMixin, FormView):
     template_name = 'user/register.html'
     form_class = RegistrationForm
@@ -45,6 +43,9 @@ class RegistrationView(UserPassesTestMixin, FormView):
             [f'{user.email}'],
             fail_silently=False,
         )
+        messages.success(self.request, _('ثبت نام شما با موفقیت انجام شد!'))
+        messages.info(self.request,
+                      _(' لطفا ایمیل خود را برای دریافت لینک فعالسازی ملاحظه فرمایید (پوشه Spam را نیز چک کنید)'))
         return super().form_valid(form)
 
     def test_func(self):
@@ -52,10 +53,10 @@ class RegistrationView(UserPassesTestMixin, FormView):
 
     # redirect authenticated users (who have passed the test)
     def handle_no_permission(self):
+        messages.info(self.request, _('شما در حال حاضر با یک اکانت فعال وارد شده اید و نمی توانید حساب جدید بسازید.'))
         return redirect('index:home')
 
 
-# todo: Error message should be handled
 class ActivationView(View):
     def get(self, request, verification_code):
         user: User = get_object_or_404(User, verification_code=verification_code)
@@ -70,7 +71,6 @@ class ActivationView(View):
         return redirect(reverse('user:login'))
 
 
-# todo: Error message should be handled
 class LoginView(UserPassesTestMixin, FormView):
     template_name = 'user/login.html'
     form_class = LoginForm
@@ -79,21 +79,27 @@ class LoginView(UserPassesTestMixin, FormView):
     def form_valid(self, form):
         user = form.get_user()
         if user is not None:
-            login(self.request, user)
-            return redirect(self.get_success_url())
-        else:
-            messages.error(self.request, 'Invalid email or password.')
+            user_logged_in = login(self.request, user)
+            if user_logged_in:  # Login was successful
+                messages.success(self.request,
+                                 _('عملیات ورود با موفقیت انجام شد.'))
+                return redirect(self.get_success_url())
+
             return self.form_invalid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, _('ایمیل یا کلمه عبور صحیح نمی‌باشد.'))
+        return super(LoginView, self).form_invalid(form)
 
     def test_func(self):
         return not self.request.user.is_authenticated
 
     # redirect authenticated users (who have passed the test)
     def handle_no_permission(self):
+        messages.info(self.request, _('شما در حال حاضر با یک اکانت فعال وارد شده اید و نمی توانید حساب جدید بسازید.'))
         return redirect('index:home')
 
 
-# todo: Error message should be handled
 class ForgotPasswordView(FormView):
     template_name = 'user/forgot_password.html'
     form_class = ForgotPasswordForm
@@ -102,8 +108,7 @@ class ForgotPasswordView(FormView):
     def form_valid(self, form):
         email = form.cleaned_data['email']
         user: User = get_object_or_404(User, email__iexact=email)
-        # Generate a unique password reset token and send an email to the user
-        # Here, you would typically use Django's built-in password reset functionality
+
         send_mail(
             'Reset Password Link',
             f'http://127.0.0.1:8000/reset-pass/{user.verification_code}',
@@ -111,8 +116,9 @@ class ForgotPasswordView(FormView):
             [f'{user.email}'],
             fail_silently=False,
         )
-        print(user.verification_code)
-
+        messages.success(self.request, _('لینک بازیابی کلمه عبور برای ایمیل شما ارسال شد'))
+        messages.info(self.request,
+                      _(' لطفا ایمیل خود را برای دریافت لینک فعالسازی ملاحظه فرمایید (پوشه Spam را نیز چک کنید)'))
         return super().form_valid(form)
 
 
@@ -133,13 +139,18 @@ class ResetPasswordView(View):
         user: User = User.objects.filter(verification_code__iexact=verification_code).first()
         if reset_pass_form.is_valid():
             if user is None:
+                messages.error(request, _('لینک بازیابی نامعبر است.'))
                 return redirect(reverse('user:login'))
             user_new_pass = reset_pass_form.cleaned_data.get('password')
             user.set_password(user_new_pass)
             user.email_active_code = get_random_string(72)
             user.is_active = True
             user.save()
+            messages.success(request, _('کلمه عبور شما با موفقیت بازنشانی شد.'))
+            messages.info(request, _(' شما می‌توانید به کمک کلمه عبور جدیدتان، وارد حساب کاربری خود شوید.'))
             return redirect(reverse('user:login'))
+        else:
+            messages.error(request, _('لطفا موارد خواسته شده را اصلاح کنید.'))
 
         context = {
             'reset_pass_form': reset_pass_form,
@@ -152,4 +163,5 @@ class ResetPasswordView(View):
 class LogoutView(View):
     def get(self, request):
         logout(request)
+        messages.success(self.request, _('شما با موفقیت خارج شدید.)'))
         return redirect(reverse('user:login'))
