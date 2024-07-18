@@ -79,13 +79,13 @@ class LoginView(UserPassesTestMixin, FormView):
     def form_valid(self, form):
         user = form.get_user()
         if user is not None:
-            user_logged_in = login(self.request, user)
-            if user_logged_in:  # Login was successful
+            login(self.request, user)
+            if self.request.user.is_authenticated:
                 messages.success(self.request,
                                  _('عملیات ورود با موفقیت انجام شد.'))
                 return redirect(self.get_success_url())
-
-            return self.form_invalid(form)
+            else:
+                return self.form_invalid(form)
 
     def form_invalid(self, form):
         messages.error(self.request, _('ایمیل یا کلمه عبور صحیح نمی‌باشد.'))
@@ -163,5 +163,5 @@ class ResetPasswordView(View):
 class LogoutView(View):
     def get(self, request):
         logout(request)
-        messages.success(self.request, _('شما با موفقیت خارج شدید.)'))
+        messages.success(self.request, _('شما با موفقیت خارج شدید.'))
         return redirect(reverse('user:login'))
