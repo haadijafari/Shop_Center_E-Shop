@@ -1,15 +1,20 @@
-from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
-from django.utils.translation import gettext_lazy as _
-from django.views.generic import TemplateView
+from django.views.generic import ListView
 
 from apps.cart.models import Cart, CartDetail
 from apps.product.models import Product
 
 
-class CartView(LoginRequiredMixin, TemplateView):
+class CartView(LoginRequiredMixin, ListView):
     template_name = 'cart/cart.html'
+    model = CartDetail
+    context_object_name = 'items'
+
+    def get_queryset(self):
+        cart, created = Cart.objects.prefetch_related('cartdetail_set').get_or_create(user=self.request.user,
+                                                                                      is_paid=False)
+        return CartDetail.objects.filter(cart=cart)
 
 
 def add_product(request):

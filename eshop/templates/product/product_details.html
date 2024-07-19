@@ -59,7 +59,7 @@
                                 </div>
                                 <div>
 									<span>
-										<span>قیمت : {{ product.price|intcomma }} تومان</span>
+										<span>قیمت : {{ product.price|intcomma:False }} تومان</span>
 									</span>
                                     <div>
                                         {% include 'shared/messages.html' %}
