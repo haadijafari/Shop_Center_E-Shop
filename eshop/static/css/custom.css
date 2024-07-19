@@ -1,3 +1,7 @@
 ul.messages {
     padding-right: 0px
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}

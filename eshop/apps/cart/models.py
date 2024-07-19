@@ -20,6 +20,19 @@ class Cart(models.Model):
         verbose_name = _('سبد خرید')
         verbose_name_plural = _('سبدهای خرید کاربران')
 
+    def calculate_total_price(self):
+        total_amount = 0
+        if self.is_paid:
+            for cart_detail in self.cartdetail_set.all():
+                total_amount += cart_detail.final_price * cart_detail.count
+        else:
+            for cart_detail in self.cartdetail_set.all():
+                total_amount += cart_detail.product.price * cart_detail.count
+        return total_amount
+
+    def calculate_tax_price(self):
+        return self.calculate_total_price() * 0.09
+
 
 class CartDetail(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, verbose_name=_('سبد'))
