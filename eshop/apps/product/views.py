@@ -38,7 +38,7 @@ class ProductDetailsView(DetailView):
             if cart is None:
                 cart = Cart(user=request.user)
                 cart.save()
-            product = Product.objects.filter(id=kwargs.get('pid')).first()
+            product = Product.objects.filter(id=kwargs.get('pid'), is_active=True, is_delete=False).first()
             cart_item = cart.cartdetail_set.filter(product=product).first()
             context['cart_item'] = cart_item
             if count := request.GET.get('count'):
