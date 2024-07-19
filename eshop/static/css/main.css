@@ -1330,7 +1330,8 @@ h2.title {
     margin-bottom: 5px;
 }
 
-.product-information span {
+.product-information span,
+.product-information form {
     display: inline-block;
     margin-bottom: 5px;
     margin-top: 5px;
@@ -1346,7 +1347,7 @@ h2.title {
     margin-top: 0;
 }
 
-.product-information span input {
+.product-information form input {
     border: 1px solid #DEDEDC;
     color: #696763;
     font-family: 'BYekan', sans-serif;
@@ -1358,7 +1359,7 @@ h2.title {
     width: 50px;
 }
 
-.product-information span label {
+.product-information form label {
     color: #696763;
     font-family: 'BYekan', sans-serif;
     font-weight: 700;

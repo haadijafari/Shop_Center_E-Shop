@@ -12,16 +12,16 @@
                     <img src="{% static 'images/shop/product.jpg' %}" alt=""/>
                 {% endif %}
                 <h2>{{ product.title }}</h2>
-                <h4>{{ product.price|intcomma }} تومان</h4>
+                <h4>{{ product.price|intcomma:False }} تومان</h4>
                 <p>{{ product.short_description }}</p>
-                <a href="#" class="btn btn-default add-to-cart"><i
+                <a onclick="addProductToCart({{ product.id }})" class="btn btn-default add-to-cart"><i
                         class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</a>
             </div>
             <div class="product-overlay">
                 <div class="overlay-content">
-                    <h2>{{ product.price|intcomma }} تومان</h2>
+                    <h2>{{ product.price|intcomma:False }} تومان</h2>
                     <p>توضیحات کوتـاه محصـول</p>
-                    <a href="#" class="btn btn-default add-to-cart"><i
+                    <a onclick="addProductToCart({{ product.id }})" class="btn btn-default add-to-cart"><i
                             class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</a>
                 </div>
             </div>

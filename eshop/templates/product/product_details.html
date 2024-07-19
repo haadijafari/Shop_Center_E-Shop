@@ -7,7 +7,6 @@
     <section>
         <div class="container">
             <div class="row">
-
                 <div class="col-sm-9 padding-right">
                     <div class="product-details"><!--product-details-->
                         <div class="col-sm-5">
@@ -60,16 +59,39 @@
                                 </div>
                                 <div>
 									<span>
-										<span>قیمت : {{ product.price|intcomma }} تومان</span>
+										<span>قیمت : {{ product.price|intcomma:False }} تومان</span>
 									</span>
-                                    <span>
-										<label>تعداد :</label>
-										<input type="text" value="3" class="search_box"/>
-										<button type="button" class="btn btn-fefault cart">
-											<i class="fa fa-shopping-cart"></i>
-											افـزودن به سبـد خریـد
-										</button>
-									</span>
+                                    <div>
+                                        {% include 'shared/messages.html' %}
+                                    </div>
+                                    {% if request.user.is_authenticated %}
+                                        <form method="get">
+                                            <label>تعداد :</label>
+                                            {% if cart_item %}
+                                                <input name="count" type="number" min="1" value="{{ cart_item.count }}"
+                                                       class="search_box"/>
+                                                <button type="submit" class="btn btn-fefault cart">
+                                                    <i class="fa fa-shopping-cart"></i>
+                                                    بروزرسانی تعداد محصول
+                                                </button>
+                                            {% else %}
+                                                <input name="count" type="number" min="1" value="1" class="search_box"/>
+                                                <button type="submit" class="btn btn-fefault cart">
+                                                    <i class="fa fa-shopping-cart"></i>
+                                                    افـزودن به سبـد خریـد
+                                                </button>
+                                            {% endif %}
+                                        </form>
+                                    {% else %}
+                                        <form action="{% url 'user:login' %}" method="get">
+                                            <label>تعداد :</label>
+                                            <input type="number" min="1" value="1" class="search_box"/>
+                                            <button type="submit" class="btn btn-fefault cart">
+                                                <i class="fa fa-shopping-cart"></i>
+                                                افـزودن به سبـد خریـد
+                                            </button>
+                                        </form>
+                                    {% endif %}
                                 </div>
                                 <div>
                                     <p><b>موجـودی :</b> در انبـار موجود می باشد</p>
