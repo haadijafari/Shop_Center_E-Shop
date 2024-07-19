@@ -39,6 +39,7 @@ class ProductDetailsView(DetailView):
             cart_item = cart.cartdetail_set.filter(product=product).first()
             context['cart_item'] = cart_item
             if count := request.GET.get('count'):
+                count = 1 if int(float(count)) < 1 else int(float(count))
                 if cart_item:
                     cart_item.count = count
                     cart_item.save()
