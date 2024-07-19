@@ -34,10 +34,7 @@ class ProductDetailsView(DetailView):
 
         # Add Item to Cart
         if request.user.is_authenticated:
-            cart = Cart.objects.filter(user=request.user, is_paid=False).first()
-            if cart is None:
-                cart = Cart(user=request.user)
-                cart.save()
+            cart, created_status = Cart.objects.get_or_create(user=request.user, is_paid=False)
             product = Product.objects.filter(id=kwargs.get('pid'), is_active=True, is_delete=False).first()
             cart_item = cart.cartdetail_set.filter(product=product).first()
             context['cart_item'] = cart_item

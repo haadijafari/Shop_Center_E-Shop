@@ -16,10 +16,7 @@ def add_product(request):
     if request.method == 'GET':
         pid = request.GET.get('product_id')
         if request.user.is_authenticated:
-            cart = Cart.objects.filter(user=request.user, is_paid=False).first()
-            if cart is None:
-                cart = Cart(user=request.user)
-                cart.save()
+            cart, created_status = Cart.objects.get_or_create(user=request.user, is_paid=False)
             product = Product.objects.filter(id=pid, is_active=True, is_delete=False).first()
             if cart_item := cart.cartdetail_set.filter(product=product).first():
                 cart_item.count += 1
