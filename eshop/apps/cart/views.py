@@ -21,11 +21,9 @@ def add_product(request):
             if cart_item := cart.cartdetail_set.filter(product=product).first():
                 cart_item.count += 1
                 cart_item.save()
-                messages.success(request, _('تعداد محصول مورد نظر بروزرسانی شد.'))
             else:
                 cart_item = CartDetail(cart=cart, product=product, count=1)
                 cart_item.save()
-                messages.success(request, _('محصول به سبر خرید اضافه شد.'))
             return JsonResponse({'status': 'success'})
         else:
-            JsonResponse({'status': 'Not Authorized'})
+            return JsonResponse({'status': 'not_authorized'})
