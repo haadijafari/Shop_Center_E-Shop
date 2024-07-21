@@ -1,4 +1,4 @@
-function addProductToCart(productId, productCount) {
+function addProductToCart(productId, productCount=1) {
     $.get('/cart/add-product-tp-cart?product_id=' + productId + '&count=' + productCount).then(res => {
         if (res.status === 'success') {
             Swal.fire({
