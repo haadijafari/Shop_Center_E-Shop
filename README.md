@@ -1,4 +1,4 @@
-# Basic Django E-Shop
+# Shop Center E-Shop
 
 My first E-shop django application!\
 I try to make it as good as it could be and improve it over time :D
